@@ -1,0 +1,312 @@
+/* globals.module.scss */
+
+/* --- Custom Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+
+/* --- Variables --- */
+:root {
+    --holiday-red-dark: #8B0000;
+    --holiday-red-light: #C40000;
+    --gold: #FFD700;
+}
+
+/* --- Global / Body Styles --- */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #333; /* Default dark gray */
+}
+
+.app-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    /* Holiday Background - Used an image of red background with gifts and snow/glitter */
+    background-image: url('/bg-img.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    overflow: hidden;
+}
+
+.bottom-decoration {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%); /* center horizontally */
+    width: auto;
+    pointer-events: none;
+}
+
+.main-card {
+    /* This div now acts as the full-screen container on mobile, holding the glass card */
+    width: 100%;
+    max-width: 400px;
+    min-height: 100vh;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+/* Responsive adjustments for the card */
+@media (min-width: 576px) {
+    .main-card {
+        min-height: auto;
+        margin: 2rem;
+    }
+}
+
+/* --- Utility/Structural Styles --- */
+hr {
+    border: none;
+    border-bottom: 1px solid #FFFFFF38;
+    margin: 1rem 0;
+    opacity: 1;
+}
+
+.content-card {
+    background: transparent;
+    -webkit-backdrop-filter: blur(11px);
+    backdrop-filter: blur(11px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 32px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+    color: #333;
+    opacity: 1;
+}
+
+/* Logo positioning */
+.logo-wrapper {
+    position: absolute;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.logo-img {
+    height: 3.5rem;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+}
+
+/* --- Form Styles --- */
+
+.form-title-custom {
+    font-family: 'DM Sans', sans-serif !important;
+    font-weight: 500 !important; /* Medium weight */
+    font-size: 24px !important;
+    line-height: 1 !important;
+    color: rgba(255, 255, 255, 1) !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.label {
+    color: rgba(255, 255, 255, 1) !important;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1;
+    letter-spacing: 0;
+    vertical-align: middle;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+}
+
+/* Glass Input Styling */
+.glass-input {
+    width: 100%;
+    height: 44px;
+    padding: 11px 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 1);
+    color: #333;
+    font-weight: 500;
+    opacity: 1;
+    transition: all 0.2s ease;
+
+    outline: none;
+    box-shadow: none;
+
+    &::placeholder {
+        color: rgba(51, 51, 51, 0.6);
+    }
+}
+
+.glass-input:focus {
+    background-color: white;
+    border-color: var(--holiday-red-light);
+    box-shadow: 0 0 0 0.25rem rgba(196, 0, 0, 0.25);
+    color: #333;
+}
+
+/* --- Button Styles --- */
+.btn-spin-custom,
+.btn-submit-custom {
+    width: 173px;
+    height: 48px;
+    border-radius: 58px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+
+    /* Glossy gold gradient */
+    background: linear-gradient(180deg, #FFC93C 0%, #F8AE00 100%);
+
+    position: relative;
+    overflow: hidden;
+
+    /* Glow + shine */
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.25),
+        inset 0 2px 4px rgba(255, 255, 255, 0.45),
+        inset 0 -3px 6px rgba(0, 0, 0, 0.3);
+
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: #ffffff;
+    transition: 0.25s ease;
+    text-transform: none;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        border-radius: inherit;
+        background: rgba(255, 255, 255, 0.35);
+        filter: blur(8px);
+    }
+
+    &:hover {
+        transform: scale(1.05);
+        filter: brightness(1.08);
+    }
+}
+
+.btn-spin-custom {
+    font-size: 1.5rem;
+}
+
+.disabled-spin {
+    background: #adb5bd !important;
+    cursor: not-allowed;
+    color: #e9ecef !important;
+    pointer-events: none;
+}
+
+/* --- Reward Screen Styles --- */
+.win-message-text {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600; /* SemiBold */
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: -0.3px;
+    color: #FFFFFF !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.detail-label-text {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400; /* Regular */
+    font-size: 16px;
+    line-height: 1; /* 100% line height */
+    letter-spacing: 0;
+    color: #FFFFFF !important;
+}
+
+.reward-code-input {
+    /* Background and Border */
+    background: #FFFFFF !important;
+    border: 2px dashed #D1D5DB !important; /* Dashed Border Style */
+
+    /* Typography */
+    font-family: 'DM Sans', sans-serif !important;
+    font-weight: 400 !important; /* Regular */
+    font-size: 16px !important;
+    line-height: 28px !important; /* Line Height */
+    letter-spacing: 0 !important;
+    color: #404040 !important; /* Text Color */
+
+    /* Override Bootstrap/Existing styles */
+    border-radius: 8px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.form-control.reward-code-input {
+    /* Ensures the text is vertically centered due to line-height and height */
+    height: 56px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.congrats-img-reward {
+    position: absolute;
+    top: -165px; /* Adjust this value to position the top of the image */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px; /* Adjust size */
+    height: auto;
+    z-index: -1;
+    pointer-events: none;
+    filter: brightness(1.05) saturate(1.1);
+}
+
+/* --- Spin Wheel Styles --- */
+.wheel-container {
+    position: relative;
+}
+
+.wheel-pointer {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 30px solid var(--holiday-red-light);
+    z-index: 10;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+}
+
+.wheel-spin-area {
+    transition: transform 5s cubic-bezier(0.25, 0.1, 0.25, 1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+}
+.hr-absolute-line {
+    /* Dimensions and Appearance */
+    width: 299.5px;
+    height: 0px; /* hr elements are inherently 0 height lines */
+    border: none; /* Crucial: Remove default browser border/height */
+    border-bottom: 1px solid #FFFFFF38; /* Sets the visible line */
+    opacity: 1; 
+
+  
+}
