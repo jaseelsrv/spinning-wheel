@@ -201,7 +201,30 @@ const pathname = usePathname(); // <-- 2. GET CURRENT PATH
         return () => { if (isSpinning) { stopSpinSound(); } };
     }, [currentView, wheelRotation, isSpinning, stopSpinSound]);
 
+// --- EXISTING useEffect FOR CANVAS REDRAW ---
+useEffect(() => {
+    // 1. Logic for drawing the canvas on 'spin' view (KEEP THIS)
+    if (currentView === 'spin' && canvasRef.current) {
+        // ... (Canvas drawing logic) ...
+        const ctx = canvasRef.current.getContext('2d');
+        const container = canvasRef.current.parentElement;
+        const size = Math.min(container.offsetWidth, container.offsetHeight, 350); 
+        canvasRef.current.width = size;
+        canvasRef.current.height = size;
+        drawWheel(ctx, canvasRef, wheelRotation);
+    }
+    
+    // 2. NEW LOGIC TO TRIGGER SOUND ON 'reward' VIEW
+    if (currentView === 'reward' && userData.prize && userData.prize.label !== "Better Luck Next Time") {
+        // This ensures the sound is triggered once the reward screen is rendered
+        // and all necessary scripts are loaded.
+        playWinSound(); 
+    }
 
+    // Cleanup for spinning sound (KEEP THIS)
+    return () => { if (isSpinning) { stopSpinSound(); } };
+// Added userData.prize to the dependency array to ensure it runs after the prize is set
+}, [currentView, wheelRotation, isSpinning, stopSpinSound, playWinSound, userData.prize]); // <-- UPDATED DEPENDENCY ARRAY
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
@@ -351,79 +374,210 @@ const pathname = usePathname(); // <-- 2. GET CURRENT PATH
                     />
                 </div>
             </div>
-            
-            <button
+             <div className="d-flex justify-content-center">
+                <button
+                     onClick={handleSpin}
+                disabled={isSpinning}
+                        type="submit"
+                        className={` btn-spin-custom ${isSpinning ? "disabled-spin" : ''}`}
+                    >
+                  {isSpinning ? 'SPINNING...' : 'Spin'}
+                    </button>
+                </div>
+            {/* <button
                 onClick={handleSpin}
                 disabled={isSpinning}
                 className={`btn btn-lg w-100  btn-spin-custom shadow-lg ${isSpinning ? "disabled-spin" : ''}`}
             >
                 {isSpinning ? 'SPINNING...' : 'Spin'}
-            </button>
+            </button> */}
 
         </div>
     );
 
     // Screen 4: Final Reward Pop-up
-    const renderReward = () => (
-        // Outer container for the whole screen
-        <div className="d-flex flex-column align-items-center justify-content-start h-100 p-3 reward-screen-container">
+    // const renderReward = () => (
+    //     // Outer container for the whole screen
+    //     <div className="d-flex flex-column align-items-center justify-content-start h-100 p-3 reward-screen-container">
             
-            {/* Frosted Glass Content Card */}
-            <div className={`reward-content-card content-card p-4 p-sm-5 text-center`} style={{
-                // Inline styles for glass effect (moved background-image out)
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255, 255, 255, 0.22)', 
-                boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-                maxWidth: '355px',
-                width: '100%',
-                height: 'auto',
-            }}>
+    //         {/* Frosted Glass Content Card */}
+    //         <div className={`reward-content-card content-card p-4 p-sm-5 text-center`} style={{
+    //             // Inline styles for glass effect (moved background-image out)
+    //             backdropFilter: 'blur(10px)',
+    //             border: '1px solid rgba(255, 255, 255, 0.22)', 
+    //             boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+    //             maxWidth: '355px',
+    //             width: '100%',
+    //             height: 'auto',
+    //         }}>
                 
-                {/* 1. CONGRATS Text Art - ABSOLUTELY POSITIONED */}
-                {/* <img 
-                    src="/Layer 1.svg" 
-                    alt="Congratulations" 
-                    className={styles['congrats-img-reward']} 
-                /> */}
+    //             {/* 1. CONGRATS Text Art - ABSOLUTELY POSITIONED */}
+    //             {/* <img 
+    //                 src="/Layer 1.svg" 
+    //                 alt="Congratulations" 
+    //                 className={styles['congrats-img-reward']} 
+    //             /> */}
                 
-                {/* 2. Prize Text */}
-                <div className="win-message-text">
-                    You won 10% Cashback
-                </div>
+    //             {/* 2. Prize Text */}
+    //             <div className="win-message-text">
+    //                 You won 10% Cashback
+    //             </div>
 
-                {/* 3. Registration ID & Name Block */}
-                <hr className='hr-absolute-line'/>
-                <div className="text-white text-start mb-3">
-                    <div className="d-flex justify-content-between mb-1 small mb-3">
-                        <span className="detail-label-text">Registration ID:</span>
-                        <span className="detail-label-text">{userData.registrationId || "#122878999"}</span>
+    //             {/* 3. Registration ID & Name Block */}
+    //             <hr className='hr-absolute-line'/>
+    //             <div className="text-white text-start mb-3">
+    //                 <div className="d-flex justify-content-between mb-1 small mb-3">
+    //                     <span className="detail-label-text">Registration ID:</span>
+    //                     <span className="detail-label-text">{userData.registrationId || "#122878999"}</span>
+    //                 </div>
+    //                 <div className="d-flex justify-content-between small mb-3">
+    //                     <span className="detail-label-text">Name:</span>
+    //                     <span className="detail-label-text">{userData.name || "Darsh Bhavsar"}</span>
+    //                 </div>
+    //             </div>
+
+    //             {/* 4. Code Input */}
+    //             <div className="mb-4">
+    //                 <input 
+    //                     type="text" 
+    //                     value={userData.code || "AD456J"} 
+    //                     readOnly 
+    //                     className={`form-control text-center reward-code-input`} 
+    //                     style={{ height: '56px' }}
+    //                 />
+    //             </div>
+                
+    //             {/* 5. Screenshot Instruction */}
+    //             <p className="detail-label-text">
+    //                 Take a screenshot to save your code
+    //             </p>
+
+    //         </div>
+    //     </div>
+    // );
+// Assuming 'userData' is available in the scope where this function is called
+
+// Assuming 'userData' is available in the scope where this function is called
+
+const renderReward = () => (
+    // Outer container for the pop-up/modal screen.
+    <div 
+        className="d-flex align-items-center justify-content-center" 
+        style={{
+            position: 'fixed', 
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 1050, 
+            // NOTE: No background overlay requested
+        }}
+    >
+        {/* ENHANCED Animated Content Wrapper */}
+        <div 
+            className="reward-popup-animation-wrapper"
+            style={{
+                // Changed the animation name to the enhanced version
+                // Increased duration slightly for better effect, added a subtle delay
+                animation: 'pop-in-reward 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
+                
+                // Initial state is still good practice, although 0% keyframe covers it
+                opacity: 0, 
+            }}
+        >
+            {/* The original content starts here */}
+            <div className="d-flex flex-column align-items-center justify-content-start h-100 p-3 reward-screen-container">
+                
+                {/* Frosted Glass Content Card (The actual visible pop-up content) */}
+                <div 
+                    className={`reward-content-card content-card p-4 p-sm-5 text-center`} 
+                    style={{
+                        backdropFilter: 'blur(10px)',
+                        border: '1px solid rgba(255, 255, 255, 0.22)', 
+                        boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+                        maxWidth: '355px',
+                        width: '100%',
+                        height: 'auto',
+                    }}
+                >
+                    
+                    {/* 2. Prize Text */}
+                    <div className="win-message-text">
+                 You won<br />10% Cashback
                     </div>
-                    <div className="d-flex justify-content-between small mb-3">
-                        <span className="detail-label-text">Name:</span>
-                        <span className="detail-label-text">{userData.name || "Darsh Bhavsar"}</span>
+
+                    {/* 3. Registration ID & Name Block */}
+                    <hr className='hr-absolute-line'/>
+                    <div className="text-white text-start mb-3">
+                        <div className="d-flex justify-content-between mb-1 small mb-3">
+                            <span className="detail-label-text">Registration ID:</span>
+                            <span className="detail-label-text">{userData.registrationId || "#122878999"}</span>
+                        </div>
+                        <div className="d-flex justify-content-between small mb-3">
+                            <span className="detail-label-text">Name:</span>
+                            <span className="detail-label-text">{userData.name || "Darsh Bhavsar"}</span>
+                        </div>
                     </div>
-                </div>
 
-                {/* 4. Code Input */}
-                <div className="mb-4">
-                    <input 
-                        type="text" 
-                        value={userData.code || "AD456J"} 
-                        readOnly 
-                        className={`form-control text-center reward-code-input`} 
-                        style={{ height: '56px' }}
-                    />
-                </div>
-                
-                {/* 5. Screenshot Instruction */}
-                <p className="detail-label-text">
-                    Take a screenshot to save your code
-                </p>
+                    {/* 4. Code Input */}
+                    <div className="mb-4">
+                        <input 
+                            type="text" 
+                            value={userData.code || "AD456J"} 
+                            readOnly 
+                            className={`form-control text-center reward-code-input`} 
+                            style={{ height: '56px' }}
+                        />
+                    </div>
+                    
+                    {/* 5. Screenshot Instruction */}
+                    <p className="detail-label-text">
+                        Take a screenshot to save your code
+                    </p>
 
+                </div>
             </div>
         </div>
-    );
+    </div>
+);
+// NOTE: You would need to define the 'pop-in' keyframes in your CSS/Style Sheet for the animation to work.
+// Example CSS:
+/*
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+*/
+// --- EXISTING useEffect FOR CANVAS REDRAW ---
+useEffect(() => {
+    // 1. Logic for drawing the canvas on 'spin' view (KEEP THIS)
+    if (currentView === 'spin' && canvasRef.current) {
+        // ... (Canvas drawing logic) ...
+        const ctx = canvasRef.current.getContext('2d');
+        const container = canvasRef.current.parentElement;
+        const size = Math.min(container.offsetWidth, container.offsetHeight, 350); 
+        canvasRef.current.width = size;
+        canvasRef.current.height = size;
+        drawWheel(ctx, canvasRef, wheelRotation);
+    }
     
+    // 2. NEW LOGIC TO TRIGGER SOUND ON 'reward' VIEW
+    if (currentView === 'reward' && userData.prize && userData.prize.label !== "Better Luck Next Time") {
+        // This ensures the sound is triggered once the reward screen is rendered
+        // and all necessary scripts are loaded.
+        playWinSound(); 
+    }
+
+    // Cleanup for spinning sound (KEEP THIS)
+    return () => { if (isSpinning) { stopSpinSound(); } };
+// Added userData.prize to the dependency array to ensure it runs after the prize is set
+}, [currentView, wheelRotation, isSpinning, stopSpinSound, playWinSound, userData.prize]); // <-- UPDATED DEPENDENCY ARRAY
     // --- MAIN RENDER LOGIC ---
     const renderView = () => {
         switch (currentView) {
@@ -442,7 +596,7 @@ const pathname = usePathname(); // <-- 2. GET CURRENT PATH
             <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script> 
             <BootstrapCSS />
             
-            <div className="app-container">
+            <div className="app-container" style={{ backgroundImage: `url(${backgroundImageURL})` }}>
                 {/* Top Centered Logo */}
                 <div className="logo-wrapper">
                     <img 

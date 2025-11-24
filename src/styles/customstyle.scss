@@ -25,7 +25,7 @@ body {
     justify-content: center;
     padding: 0;
     /* Holiday Background - Used an image of red background with gifts and snow/glitter */
-    background-image: url('/bg-img.png');
+    // background-image: url('/bg-img.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -309,4 +309,104 @@ hr {
     opacity: 1; 
 
   
+}
+
+/* --- Reward Popup Positioning and Backdrop --- */
+
+.reward-overlay {
+    position: fixed; /* CRITICAL: Makes it cover the entire viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Dark, semi-transparent backdrop */
+    z-index: 1050; /* Ensure it layers over everything else */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fade-in 0.3s ease-out; /* Backdrop fade in */
+}
+
+/* --- Card Animation Trigger --- */
+
+.reward-content-card.popup-enter {
+    animation: popup-slide-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0; /* Start invisible */
+}
+
+/* --- Animation Keyframes --- */
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes popup-slide-in {
+    0% {
+        opacity: 0;
+        transform: translateY(100px) scale(0.9); /* Starts below center and slightly smaller */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1); /* Moves to center, full size */
+    }
+}
+
+/* --- Custom UI Styles --- */
+
+.congrats-text-art {
+    /* Styles for the outlined 'CONGRATS' text */
+    position: absolute;
+    top: -40px; 
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3rem; 
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 1.5px #FFD700; 
+    text-stroke: 1.5px #FFD700;
+    letter-spacing: 5px;
+    z-index: 10;
+    white-space: nowrap; 
+}
+
+.win-message-text {
+    /* Styles for the 'You won 10% Cashback' text */
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #FFD700; 
+    margin-bottom: 2rem;
+    // padding-top: 1rem; 
+}
+
+.hr-static-line {
+    /* Styles for the separator line */
+    border: none;
+    border-bottom: 1px solid #FFFFFF38; 
+    margin: 1.5rem 0; 
+    opacity: 1; 
+    width: 100%; 
+}
+
+@keyframes pop-in-reward {
+  /* Start hidden, slightly smaller, and a bit rotated */
+  0% {
+    opacity: 0;
+    transform: scale(0.6) translateY(50px) rotateX(15deg);
+    filter: brightness(0.8); /* Slight initial dimness */
+  }
+  
+  /* Quick "overshoot" effect for a springy feel (Bouncing past the final point) */
+  70% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-5px) rotateX(0deg);
+    filter: brightness(1.1); /* Brief celebratory brightness */
+  }
+
+  /* Settle back into the final position */
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0) rotateX(0deg);
+    filter: brightness(1);
+  }
 }
