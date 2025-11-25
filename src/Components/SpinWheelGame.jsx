@@ -395,70 +395,89 @@ useEffect(() => {
         </div>
     );
 
-    // Screen 4: Final Reward Pop-up
-    // const renderReward = () => (
-    //     // Outer container for the whole screen
-    //     <div className="d-flex flex-column align-items-center justify-content-start h-100 p-3 reward-screen-container">
-            
-    //         {/* Frosted Glass Content Card */}
-    //         <div className={`reward-content-card content-card p-4 p-sm-5 text-center`} style={{
-    //             // Inline styles for glass effect (moved background-image out)
-    //             backdropFilter: 'blur(10px)',
-    //             border: '1px solid rgba(255, 255, 255, 0.22)', 
-    //             boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-    //             maxWidth: '355px',
-    //             width: '100%',
-    //             height: 'auto',
-    //         }}>
+   
+
+// const renderReward = () => (
+//     // Outer container for the pop-up/modal screen.
+//     <div 
+//         className="d-flex align-items-center justify-content-center" 
+//         style={{
+//             position: 'fixed', 
+//             top: 0,
+//             left: 0,
+//             right: 0,
+//             bottom: 0,
+//             zIndex: 1050, 
+//             // NOTE: No background overlay requested
+//         }}
+//     >
+//         {/* ENHANCED Animated Content Wrapper */}
+//         <div 
+//             className="reward-popup-animation-wrapper"
+//             style={{
+//                 // Changed the animation name to the enhanced version
+//                 // Increased duration slightly for better effect, added a subtle delay
+//                 animation: 'pop-in-reward 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
                 
-    //             {/* 1. CONGRATS Text Art - ABSOLUTELY POSITIONED */}
-    //             {/* <img 
-    //                 src="/Layer 1.svg" 
-    //                 alt="Congratulations" 
-    //                 className={styles['congrats-img-reward']} 
-    //             /> */}
+//                 // Initial state is still good practice, although 0% keyframe covers it
+//                 opacity: 0, 
+//             }}
+//         >
+//             {/* The original content starts here */}
+//             <div className="d-flex flex-column align-items-center justify-content-start h-100 p-3 reward-screen-container">
                 
-    //             {/* 2. Prize Text */}
-    //             <div className="win-message-text">
-    //                 You won 10% Cashback
-    //             </div>
+//                 {/* Frosted Glass Content Card (The actual visible pop-up content) */}
+//                 <div 
+//                     className={`reward-content-card content-card p-4 p-sm-5 text-center`} 
+//                     style={{
+//                         backdropFilter: 'blur(10px)',
+//                         border: '1px solid rgba(255, 255, 255, 0.22)', 
+//                         boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+//                         maxWidth: '355px',
+//                         width: '100%',
+//                         height: 'auto',
+//                     }}
+//                 >
+                    
+//                     {/* 2. Prize Text */}
+//                     <div className="win-message-text">
+//                  You won<br />10% Cashback
+//                     </div>
 
-    //             {/* 3. Registration ID & Name Block */}
-    //             <hr className='hr-absolute-line'/>
-    //             <div className="text-white text-start mb-3">
-    //                 <div className="d-flex justify-content-between mb-1 small mb-3">
-    //                     <span className="detail-label-text">Registration ID:</span>
-    //                     <span className="detail-label-text">{userData.registrationId || "#122878999"}</span>
-    //                 </div>
-    //                 <div className="d-flex justify-content-between small mb-3">
-    //                     <span className="detail-label-text">Name:</span>
-    //                     <span className="detail-label-text">{userData.name || "Darsh Bhavsar"}</span>
-    //                 </div>
-    //             </div>
+//                     {/* 3. Registration ID & Name Block */}
+//                     <hr className='hr-absolute-line'/>
+//                     <div className="text-white text-start mb-3">
+//                         <div className="d-flex justify-content-between mb-1 small mb-3">
+//                             <span className="detail-label-text">Registration ID:</span>
+//                             <span className="detail-label-text">{userData.registrationId || "#122878999"}</span>
+//                         </div>
+//                         <div className="d-flex justify-content-between small mb-3">
+//                             <span className="detail-label-text">Name:</span>
+//                             <span className="detail-label-text">{userData.name || "Darsh Bhavsar"}</span>
+//                         </div>
+//                     </div>
 
-    //             {/* 4. Code Input */}
-    //             <div className="mb-4">
-    //                 <input 
-    //                     type="text" 
-    //                     value={userData.code || "AD456J"} 
-    //                     readOnly 
-    //                     className={`form-control text-center reward-code-input`} 
-    //                     style={{ height: '56px' }}
-    //                 />
-    //             </div>
-                
-    //             {/* 5. Screenshot Instruction */}
-    //             <p className="detail-label-text">
-    //                 Take a screenshot to save your code
-    //             </p>
+//                     {/* 4. Code Input */}
+//                     <div className="mb-4">
+//                         <input 
+//                             type="text" 
+//                             value={userData.code || "AD456J"} 
+//                             readOnly 
+//                             className={`form-control text-center reward-code-input`} 
+//                             style={{ height: '56px' }}
+//                         />
+//                     </div>
+                    
+//                     {/* 5. Screenshot Instruction */}
+//                     <p className="detail-label-text">
+//                         Take a screenshot to save your code
+//                     </p>
 
-    //         </div>
-    //     </div>
-    // );
-// Assuming 'userData' is available in the scope where this function is called
-
-// Assuming 'userData' is available in the scope where this function is called
-
+//                 </div>
+//             </div>
+//         </div>
+//     </div>
+// );
 const renderReward = () => (
     // Outer container for the pop-up/modal screen.
     <div 
@@ -477,21 +496,44 @@ const renderReward = () => (
         <div 
             className="reward-popup-animation-wrapper"
             style={{
-                // Changed the animation name to the enhanced version
-                // Increased duration slightly for better effect, added a subtle delay
                 animation: 'pop-in-reward 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
-                
-                // Initial state is still good practice, although 0% keyframe covers it
                 opacity: 0, 
+                // Added position: relative to allow absolute positioning of the SVG content later
+                position: 'relative', 
             }}
         >
-            {/* The original content starts here */}
-            <div className="d-flex flex-column align-items-center justify-content-start h-100 p-3 reward-screen-container">
+            {/* 1. SVG Image/Decoration (Positioned Behind the Card) */}
+            {/* The SVG should be absolutely positioned relative to the .reward-popup-animation-wrapper */}
+            {/* You will need to replace the <svg> block below with your actual SVG code for the gifts and banner. */}
+            <div 
+                className="reward-svg-decoration"
+                style={{
+                    position: 'absolute',
+                    top: '-400px', // Adjust this value to move the image up/down
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    zIndex: 1, // Set lower than the main card (zIndex: 2 recommended for the card)
+                    // The width and height should match your SVG's viewBox or desired size.
+                    // width: '350px', 
+                    // height: '200px',
+                    pointerEvents: 'none', // Important: Ensures the decoration doesn't block clicks/taps
+                }}
+            >
+                {/* ⚠️ REPLACE THIS WITH YOUR ACTUAL SVG CODE ⚠️ */}
+           <img src="/reward-bg.svg" alt="" />
+            </div>
+
+
+            {/* The original content starts here (Z-Index should be higher than SVG) */}
+            <div className="d-flex flex-column align-items-center justify-content-start h-100 p-3 reward-screen-container" style={{ zIndex: 2, position: 'relative' }}>
                 
                 {/* Frosted Glass Content Card (The actual visible pop-up content) */}
                 <div 
                     className={`reward-content-card content-card p-4 p-sm-5 text-center`} 
                     style={{
+                        // ⭐️ Ensure this card has a higher zIndex than the SVG decoration or is positioned correctly
+                        zIndex: 2, 
+                        position: 'relative',
                         backdropFilter: 'blur(10px)',
                         border: '1px solid rgba(255, 255, 255, 0.22)', 
                         boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
@@ -503,7 +545,7 @@ const renderReward = () => (
                     
                     {/* 2. Prize Text */}
                     <div className="win-message-text">
-                 You won<br />10% Cashback
+                        You won<br />10% Cashback
                     </div>
 
                     {/* 3. Registration ID & Name Block */}
@@ -540,21 +582,6 @@ const renderReward = () => (
         </div>
     </div>
 );
-// NOTE: You would need to define the 'pop-in' keyframes in your CSS/Style Sheet for the animation to work.
-// Example CSS:
-/*
-@keyframes pop-in {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-*/
-// --- EXISTING useEffect FOR CANVAS REDRAW ---
 useEffect(() => {
     // 1. Logic for drawing the canvas on 'spin' view (KEEP THIS)
     if (currentView === 'spin' && canvasRef.current) {
